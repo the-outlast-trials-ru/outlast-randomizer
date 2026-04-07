@@ -3,50 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>The Outlast Trials - Рандомайзер</title>
+    <title>The Outlast Trials | Рандомайзер испытаний</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- ДИНАМИЧЕСКИЙ ФОН С МУТНЫМИ ОГНЯМИ -->
+    <div class="noise"></div>
+    <div class="glow-bg"></div>
+    <div class="vignette"></div>
+    
     <div class="app">
-        <!-- ШАПКА -->
+        <!-- ГОЛОВОЛОМАЮЩИЙ ХЕДЕР С ЭФФЕКТОМ ГЛИТЧА -->
         <div class="header">
-            <h1>⚡ THE OUTLAST TRIALS ⚡</h1>
-            <h2>РАНДОМАЙЗЕР</h2>
-            <p class="sub">Выбери режим и получи случайные вариаторы, снаряжение и ампулы для испытания</p>
+            <div class="glitch-wrapper">
+                <h1 class="glitch" data-text="THE OUTLAST TRIALS">THE OUTLAST TRIALS</h1>
+            </div>
+            <div class="title-badge">
+                <span class="pulse">⚡ РАНДОМАЙЗЕР ИСПЫТАНИЙ ⚡</span>
+            </div>
+            <p class="sub">Выбери режим. Судья уже смотрит на тебя.</p>
         </div>
 
-        <!-- КНОПКИ РЕЖИМОВ -->
-        <div class="mode-bar">
-            <button class="mode-btn active" data-mode="escalation">🔥 ЭСКАЛАЦИЯ</button>
-            <button class="mode-btn" data-mode="card">🎴 КАРТОЧНЫЙ</button>
-            <button class="mode-btn" data-mode="daily">📅 ЗАДАНИЕ ДНЯ</button>
+        <!-- РЕЖИМЫ: СТИЛЬНЫЕ КАРТОЧКИ -->
+        <div class="mode-container">
+            <div class="mode-card" data-mode="escalation">
+                <div class="mode-icon">🔥</div>
+                <div class="mode-name">ЭСКАЛАЦИЯ</div>
+                <div class="mode-desc">Уровень за уровнем. Ад нарастает.</div>
+                <div class="mode-glow"></div>
+            </div>
+            <div class="mode-card" data-mode="card">
+                <div class="mode-icon">🎴</div>
+                <div class="mode-name">КАРТОЧНЫЙ</div>
+                <div class="mode-desc">Открывай карты. Судьба не ждёт.</div>
+                <div class="mode-glow"></div>
+            </div>
+            <div class="mode-card" data-mode="daily">
+                <div class="mode-icon">📅</div>
+                <div class="mode-name">ЗАДАНИЕ ДНЯ</div>
+                <div class="mode-desc">Сегодняшний приговор</div>
+                <div class="mode-glow"></div>
+            </div>
         </div>
 
-        <!-- ОСНОВНАЯ ПАНЕЛЬ (сюда подгружается контент) -->
-        <div class="panel" id="mainPanel">
-            <!-- Динамическое содержимое -->
+        <!-- ИНТЕРАКТИВНАЯ ПАНЕЛЬ РЕЗУЛЬТАТОВ -->
+        <div class="result-panel" id="resultPanel">
+            <div class="panel-header">
+                <span class="panel-title">⚔️ ИСПЫТАНИЕ ⚔️</span>
+                <div class="panel-decoration"></div>
+            </div>
+            <div class="panel-content" id="panelContent">
+                <div class="placeholder">
+                    <div class="skull-icon">💀</div>
+                    <p>Нажми на режим, чтобы начать</p>
+                    <span class="small-hint">Судья ждёт твоего выбора</span>
+                </div>
+            </div>
+            <div class="panel-footer" id="panelFooter" style="display: none;">
+                <button class="action-btn" id="rerollBtn">
+                    <span>🔄</span> ПЕРЕБРОСИТЬ
+                </button>
+                <button class="action-btn secondary" id="saveBtn">
+                    <span>📸</span> СОХРАНИТЬ
+                </button>
+            </div>
         </div>
 
-        <!-- ШТОРКА ДЛЯ КАРТОЧНОГО РЕЖИМА (изначально скрыта) -->
+        <!-- ШТОРКА С ВЫБРАННЫМИ ВАРИАТОРАМИ (ДЛЯ КАРТОЧНОГО РЕЖИМА) -->
         <div class="drawer" id="drawer">
+            <div class="drawer-handle"></div>
             <div class="drawer-header">
-                <span>📋 ВЫБРАННЫЕ ВАРИАТОРЫ</span>
-                <button class="drawer-close" id="drawerClose">✖</button>
+                <div class="drawer-title">
+                    <span class="drawer-icon">🎴</span>
+                    <span>СБОРНИК ПЫТОК</span>
+                    <span class="drawer-count" id="drawerCount">0</span>
+                </div>
+                <button class="drawer-clear" id="drawerClear">✖ ОЧИСТИТЬ</button>
             </div>
             <div class="drawer-content" id="drawerContent">
-                <!-- Список выбранных вариаторов -->
+                <div class="drawer-empty">Пока ничего. Открой карту.</div>
             </div>
         </div>
     </div>
 
-    <!-- ПОДКЛЮЧАЕМ ФАЙЛЫ С ДАННЫМИ -->
+    <!-- ТОСТ УВЕДОМЛЕНИЙ -->
+    <div class="toast" id="toast">✨ Готово</div>
+
+    <!-- ПОДКЛЮЧЕНИЕ ДАННЫХ -->
     <script src="data/variators.js"></script>
     <script src="data/equipment.js"></script>
     <script src="data/ampules.js"></script>
     <script src="data/maps.js"></script>
-
-    <!-- ОСНОВНОЙ СКРИПТ -->
+    
+    <!-- ГЛАВНАЯ ЛОГИКА -->
     <script src="script.js"></script>
 </body>
 </html>
