@@ -1,1 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>The Outlast Trials - Рандомайзер</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <!-- ШАПКА -->
+        <div class="header">
+            <h1>⚡ THE OUTLAST TRIALS ⚡</h1>
+            <h2>РАНДОМАЙЗЕР</h2>
+            <p class="sub">Выбери режим и получи случайные вариаторы, снаряжение и ампулы для испытания</p>
+        </div>
 
+        <!-- КНОПКИ РЕЖИМОВ -->
+        <div class="mode-bar">
+            <button class="mode-btn active" data-mode="escalation">🔥 ЭСКАЛАЦИЯ</button>
+            <button class="mode-btn" data-mode="card">🎴 КАРТОЧНЫЙ</button>
+            <button class="mode-btn" data-mode="daily">📅 ЗАДАНИЕ ДНЯ</button>
+        </div>
+
+        <!-- ОСНОВНАЯ ПАНЕЛЬ (сюда подгружается контент) -->
+        <div class="panel" id="mainPanel">
+            <!-- Динамическое содержимое -->
+        </div>
+
+        <!-- ШТОРКА ДЛЯ КАРТОЧНОГО РЕЖИМА (изначально скрыта) -->
+        <div class="drawer" id="drawer">
+            <div class="drawer-header">
+                <span>📋 ВЫБРАННЫЕ ВАРИАТОРЫ</span>
+                <button class="drawer-close" id="drawerClose">✖</button>
+            </div>
+            <div class="drawer-content" id="drawerContent">
+                <!-- Список выбранных вариаторов -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ПОДКЛЮЧАЕМ ФАЙЛЫ С ДАННЫМИ -->
+    <script src="data/variators.js"></script>
+    <script src="data/equipment.js"></script>
+    <script src="data/ampules.js"></script>
+    <script src="data/maps.js"></script>
+
+    <!-- ОСНОВНОЙ СКРИПТ -->
+    <script src="script.js"></script>
+</body>
+</html>
