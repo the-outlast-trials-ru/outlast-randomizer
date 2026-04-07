@@ -1,0 +1,578 @@
+/* ========================================
+   THE OUTLAST TRIALS - РАНДОМАЙЗЕР
+   ХОРРОР / КИБЕРПАНК СТИЛЬ
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+body {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #030307 100%);
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    color: #e0e0e0;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* ========== ДИНАМИЧЕСКИЙ ФОН ========== */
+.noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjciIG51bU9jdGF2ZXM9IjMiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjZikiIG9wYWNpdHk9IjAuMDYiLz48L3N2Zz4=');
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+}
+
+.glow-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 40%, rgba(255, 0, 0, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(200, 0, 0, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.vignette {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.6) 100%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* ========== ОСНОВНОЙ КОНТЕЙНЕР ========== */
+.app {
+    position: relative;
+    z-index: 10;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px 25px 100px 25px;
+}
+
+/* ========== ХЕДЕР С ГЛИТЧ-ЭФФЕКТОМ ========== */
+.header {
+    text-align: center;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.glitch-wrapper {
+    margin-bottom: 15px;
+}
+
+.glitch {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(1.8rem, 8vw, 3.8rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #e0e0e0;
+    position: relative;
+    text-shadow: 0 0 10px rgba(255,0,0,0.5);
+    letter-spacing: 4px;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch::before {
+    animation: glitch 0.3s infinite;
+    color: #ff0000;
+    z-index: -1;
+    left: 2px;
+}
+
+.glitch::after {
+    animation: glitch 0.3s infinite reverse;
+    color: #00ffcc;
+    z-index: -2;
+    left: -2px;
+}
+
+@keyframes glitch {
+    0% { clip-path: inset(20% 0 30% 0); transform: translate(-1px, 1px); }
+    20% { clip-path: inset(60% 0 10% 0); transform: translate(1px, -1px); }
+    40% { clip-path: inset(10% 0 60% 0); transform: translate(-1px, 0); }
+    60% { clip-path: inset(40% 0 20% 0); transform: translate(1px, 1px); }
+    80% { clip-path: inset(80% 0 5% 0); transform: translate(-1px, -1px); }
+    100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+}
+
+.title-badge {
+    display: inline-block;
+    background: rgba(255, 0, 0, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 0, 0, 0.4);
+    border-radius: 60px;
+    padding: 8px 24px;
+    margin-bottom: 20px;
+}
+
+.title-badge span {
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 0.85rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; text-shadow: 0 0 2px red; }
+    50% { opacity: 0.8; text-shadow: 0 0 12px red; }
+}
+
+.sub {
+    color: #9a9aa5;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+/* ========== КАРТОЧКИ РЕЖИМОВ (3D + НЕОН) ========== */
+.mode-container {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.mode-card {
+    background: rgba(15, 15, 25, 0.7);
+    backdrop-filter: blur(12px);
+    border-radius: 28px;
+    padding: 28px 24px;
+    width: 200px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    border: 1px solid rgba(255, 60, 60, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.mode-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 60, 60, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.mode-card:hover::before {
+    left: 100%;
+}
+
+.mode-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: rgba(255, 60, 60, 0.8);
+    box-shadow: 0 15px 35px rgba(255, 0, 0, 0.3), 0 0 20px rgba(255, 0, 0, 0.2);
+}
+
+.mode-card.active {
+    border-color: #ff3a3a;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
+    background: rgba(30, 15, 15, 0.8);
+}
+
+.mode-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 0 8px rgba(255,0,0,0.5));
+}
+
+.mode-name {
+    font-family: 'Orbitron', monospace;
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #fff, #ff8888);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.mode-desc {
+    font-size: 0.7rem;
+    opacity: 0.7;
+}
+
+.mode-glow {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #ff3a3a, transparent);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+}
+
+.mode-card.active .mode-glow,
+.mode-card:hover .mode-glow {
+    transform: scaleX(1);
+}
+
+/* ========== ГЛАВНАЯ ПАНЕЛЬ РЕЗУЛЬТАТОВ ========== */
+.result-panel {
+    background: rgba(10, 10, 18, 0.6);
+    backdrop-filter: blur(16px);
+    border-radius: 40px;
+    border: 1px solid rgba(255, 50, 50, 0.3);
+    overflow: hidden;
+    transition: all 0.3s;
+    margin-bottom: 30px;
+}
+
+.panel-header {
+    padding: 18px 28px;
+    background: rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid rgba(255, 50, 50, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    color: #ff6a6a;
+}
+
+.panel-decoration {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, #ff3a3a, transparent);
+}
+
+.panel-content {
+    padding: 30px;
+    min-height: 320px;
+    transition: all 0.2s;
+}
+
+.placeholder {
+    text-align: center;
+    padding: 50px 20px;
+    opacity: 0.6;
+}
+
+.skull-icon {
+    font-size: 4rem;
+    margin-bottom: 15px;
+    animation: float 3s infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.small-hint {
+    font-size: 0.7rem;
+    display: block;
+    margin-top: 12px;
+    opacity: 0.5;
+}
+
+.panel-footer {
+    padding: 18px 28px;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    border-top: 1px solid rgba(255, 50, 50, 0.2);
+}
+
+.action-btn {
+    background: linear-gradient(135deg, #b11f1f, #7a1515);
+    border: none;
+    padding: 12px 28px;
+    border-radius: 40px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    transition: 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Orbitron', monospace;
+}
+
+.action-btn:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+    background: linear-gradient(135deg, #d42a2a, #8f1818);
+}
+
+.action-btn.secondary {
+    background: linear-gradient(135deg, #2a2a3a, #1a1a2a);
+    border: 1px solid rgba(255, 100, 100, 0.3);
+}
+
+/* ========== ШТОРКА (DRAWER) ========== */
+.drawer {
+    position: fixed;
+    bottom: -80%;
+    left: 0;
+    right: 0;
+    background: rgba(8, 8, 14, 0.95);
+    backdrop-filter: blur(20px);
+    border-top-left-radius: 32px;
+    border-top-right-radius: 32px;
+    border-top: 1px solid rgba(255, 50, 50, 0.5);
+    transition: bottom 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    z-index: 100;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.drawer.open {
+    bottom: 0;
+}
+
+.drawer-handle {
+    width: 60px;
+    height: 4px;
+    background: rgba(255, 80, 80, 0.5);
+    border-radius: 4px;
+    margin: 12px auto;
+    cursor: grab;
+}
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    border-bottom: 1px solid rgba(255, 80, 80, 0.2);
+}
+
+.drawer-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-family: 'Orbitron', monospace;
+}
+
+.drawer-count {
+    background: #ff3a3a;
+    padding: 2px 10px;
+    border-radius: 40px;
+    font-size: 0.7rem;
+}
+
+.drawer-clear {
+    background: none;
+    border: none;
+    color: #ff8888;
+    cursor: pointer;
+    font-size: 0.75rem;
+}
+
+.drawer-content {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.drawer-empty {
+    text-align: center;
+    width: 100%;
+    opacity: 0.5;
+    padding: 20px;
+}
+
+.variator-chip {
+    background: rgba(255, 50, 50, 0.2);
+    border: 1px solid rgba(255, 80, 80, 0.4);
+    border-radius: 60px;
+    padding: 6px 16px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    animation: fadeInUp 0.2s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========== КАРТОЧКИ ДЛЯ КАРТОЧНОГО РЕЖИМА ========== */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 110px));
+    gap: 16px;
+    justify-content: center;
+    padding: 10px;
+}
+
+.card-item {
+    aspect-ratio: 3/4;
+    background: linear-gradient(145deg, #1e1e2e, #12121c);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid rgba(255, 80, 80, 0.3);
+    position: relative;
+    font-family: 'Orbitron', monospace;
+    font-weight: bold;
+    font-size: 1.8rem;
+    color: #ff8888;
+}
+
+.card-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    border-color: #ff3a3a;
+}
+
+.card-item.flipped {
+    background: linear-gradient(145deg, #2a1515, #1a0a0a);
+    border-color: #ff3a3a;
+    color: #ffcccc;
+    font-size: 0.75rem;
+    font-weight: normal;
+    padding: 12px;
+    text-align: center;
+    word-break: break-word;
+}
+
+.card-item.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ========== ЭСКАЛАЦИЯ: СНАРЯЖЕНИЕ ========== */
+.equipment-grid {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.equipment-card {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    padding: 12px 20px;
+    border: 1px solid #ff5a5a;
+    font-weight: bold;
+}
+
+.level-badge {
+    display: inline-block;
+    background: #ff3a3a;
+    padding: 4px 16px;
+    border-radius: 30px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* ========== АДАПТИВ ========== */
+@media (max-width: 700px) {
+    .app {
+        padding: 15px 15px 80px 15px;
+    }
+    
+    .mode-card {
+        width: 150px;
+        padding: 18px 12px;
+    }
+    
+    .mode-icon {
+        font-size: 2rem;
+    }
+    
+    .mode-name {
+        font-size: 0.9rem;
+    }
+    
+    .cards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(75px, 85px));
+        gap: 10px;
+    }
+    
+    .action-btn {
+        padding: 8px 18px;
+        font-size: 0.7rem;
+    }
+}
+
+/* ========== ТОСТ УВЕДОМЛЕНИЙ ========== */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #1a1a2a;
+    border: 1px solid #ff3a3a;
+    padding: 12px 24px;
+    border-radius: 60px;
+    font-weight: bold;
+    z-index: 200;
+    transition: 0.2s;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+/* ========== СКРОЛЛБАР ========== */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0a0a12;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ff3a3a;
+    border-radius: 5px;
+}
